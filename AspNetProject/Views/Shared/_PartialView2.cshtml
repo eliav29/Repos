@@ -1,0 +1,138 @@
+﻿@using AspNetProject.Models;
+@model Animal
+
+
+
+
+
+<center class="row">
+
+
+    <div class="toDis col">
+        @using (Html.BeginForm("Edit", "Animal", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            <div>
+                @Html.LabelFor(m => m.Name)
+                @Html.EditorFor(m => m.Name)
+                <br/>
+                @Html.ValidationMessageFor(m => m.Name)
+                <br/>
+            </div>
+
+            <div>
+                @Html.LabelFor(m => m.Age)
+                @Html.EditorFor(m => m.Age)
+                <br/>
+                @Html.ValidationMessageFor(m => m.Age)
+                <br/>
+            </div>
+
+            <div>
+                @Html.LabelFor(m => m.Description)
+                @Html.EditorFor(m => m.Description)
+                <br/>
+                @Html.ValidationMessageFor(m => m.Description)
+                <br/>
+            </div>
+            @*<input type="hidden" name="CategoryId" asp-for="CategoryId"/>*@
+
+            <div>
+                @Html.LabelFor(m => m.CategoryId)
+                <select id="dropdown" class="dropdown" asp-for="CategoryId" title="Select category">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+
+            <br/>
+            <br/>
+
+            <input id="addPet" type="file" name="PictureName" typeof="">
+            <br/>
+            @Html.ValidationMessageFor(m => m.PictureName)
+
+            <br />
+            <span id="pictureValidation" class="field-validation-error" style="display: none;">Only JPEG images are allowed.</span>
+
+
+
+
+            <br/>
+            @*<input type="hidden" name="num" value="@Model?.Id">*@
+            @if (ViewBag.IsCreate)
+            {
+                <input asp-action="CreateAnimal" type="submit" value="Insert"/>
+            }
+            @if (!ViewBag.IsCreate)
+            {
+                <input asp-action="Edit" type="submit" value="Save Changes"/>
+            }
+            @*@Html.HiddenFor(m => m.Id)*@
+
+            @*@Html.ValidationMessageFor(m => m.PictureName)*@
+
+            @*<label asp-for="PictureName" asp-validation-for="PictureName">Select image:</label>*@
+            @*<input type="file" id="img" name="img" accept="../~/images">*@
+
+        }
+    </div>
+    <div class="toDis col">
+        @if (ViewBag.IsCreate)
+        {
+            @*<img src="~/images/PictureAdd.png" alt="buttonpng" border="0" />*@
+            <img id="picture" src="~/images/PictureAdd.png" alt="@Model?.Name" border="0">
+        }
+        @if (!ViewBag.IsCreate)
+        {
+            <img id="picture" src="~/images/@Model?.PictureName" alt="@Model?.Name">
+        }
+    </div>
+</center>
+
+
+
+@*  <script>
+        document.getElementById("addPet").addEventListener('change' ,function () {
+        document.getElementById("picture").src = "~/images/@Model?.PictureName"
+        })
+    </script>*@
+
+<script>
+    document.getElementById("addPet").addEventListener('change', function (event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            document.getElementById("picture").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
+
+
+<style>
+    #picture {
+        height: 200px;
+        width: auto;
+    }
+
+    .toDis label {
+        display: block;
+        /*margin-bottom: 5px;*/
+    }
+
+    .toDis {
+        /*display: inline-block;*/
+    }
+
+    .row {
+        /*flex-wrap: wrap;*/
+        align-items: center;
+        margin-top: 200px;
+    }
+
+    .col {
+        flex-basis: 50%;
+    }
+</style>

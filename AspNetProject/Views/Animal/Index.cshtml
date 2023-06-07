@@ -1,0 +1,102 @@
+﻿@using AspNetProject.Models;
+@model IEnumerable<Animal>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@section section1 {
+    <h1>Welcome to our shop</h1>
+}
+
+<div class="container">
+<table class="table">
+
+        <tr>
+            <th>picture</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Number of comments</th>
+        </tr>
+    @foreach(var pet in Model){
+        <tr>
+            <td>
+                <img class="pict" src="~/images/@pet.PictureName" alt="@pet.Name">
+            </td>
+            <td>@pet.Name</td>
+            <td>@pet.Description</td>
+            <td>@pet.Comments!.Count()</td>
+        </tr>
+    }
+</table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<style>
+    .background-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+
+    .background-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: opacity 0.5s ease;
+    }
+</style>*@
+
+@*
+<script>
+    $(document).ready(function () {
+        var container = $('.background-container');
+        var image = container.find('.background-image');
+
+        var backgrounds = [
+            'url("../images/Cat.jpeg")',
+            'url(http://placekitten.com/200)',
+            'url(http://placekitten.com/300)',
+            'url(http://placekitten.com/400)'
+        ];
+
+        var current = 0;
+
+        function nextBackground() {
+            current++;
+            current = current % backgrounds.length;
+            image.fadeTo(500, 0, function () {
+                image.css('background-image', backgrounds[current]);
+                image.fadeTo(2000, 3);
+            });
+        }
+        setInterval(nextBackground, 3000);
+
+        image.css('background-image', backgrounds[0]);
+    });
+</script>
+
+<div class="background-container">
+    <div class="background-image"></div>
+</div>
+*@

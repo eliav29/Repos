@@ -1,0 +1,33 @@
+﻿@using AspNetProject.Models;
+@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Manage";
+    ViewBag.IsAdministrator = false;
+}
+
+@section section1{
+<h1>Welcome Administrator</h1>
+}
+
+<div id="addAn">
+    <p>Click on The image below to add new animal</p>
+    <a asp-action="CreateAnimal"><img src="../images/Plus.webp" alt="add pet" style="width:42px;height:42px; border-radius:20%;"></a>
+</div>
+
+
+
+<style>
+
+    #addAn {
+        position: relative;
+        text-align: center;
+        /*color: white;*/
+        margin-right:50px;
+        margin-top:50px;
+    }
+</style>
+
+<div>
+@await Html.PartialAsync("_PartialView")
+</div>

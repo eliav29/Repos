@@ -1,0 +1,15 @@
+﻿@using AspNetProject.Models;
+@model Animal
+
+@{
+    ViewData["Title"] = "Edit";
+    ViewBag.IsCreate = false;
+}
+
+@section section1{
+<h1>Edit Page</h1>
+}
+
+
+@await Html.PartialAsync("_PartialView2", Model)
+

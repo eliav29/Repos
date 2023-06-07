@@ -1,0 +1,13 @@
+﻿@using AspNetProject.Models;
+@model Animal
+
+@{
+    ViewData["Title"] = "CreateAnimal";
+    ViewBag.IsCreate = true;
+}
+
+<h1>Create new animal</h1>
+
+
+@await Html.PartialAsync("_PartialView2", Model)
+

@@ -1,0 +1,17 @@
+﻿@using AspNetProject.Models;
+@using Newtonsoft.Json;
+
+@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Catalog";
+    ViewBag.IsAdministrator = true;
+}
+
+
+@section section1 {
+    <h1>Welcome to our catalog shop</h1>
+}
+
+
+@await Html.PartialAsync("_PartialView")

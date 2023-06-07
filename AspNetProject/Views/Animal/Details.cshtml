@@ -1,0 +1,116 @@
+﻿@using AspNetProject.Models;
+@model Comment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@section section1{
+<h1>Details about @ViewBag.Animal.Name</h1>
+
+}
+
+
+
+<script>
+    function limitTextarea(element, maxLength) {
+        if (element.value.length > maxLength) {
+            element.value = element.value.substr(0, maxLength);
+        }
+    }
+</script>
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="animalContainer" class="d-flex align-items-center justify-content-center flex-wrap">
+                <div class="animal" data-category="@ViewBag.Animal.Id">
+                    <!-- Animal content goes here -->
+                    <div class="box">
+                        @*<div class="body">*@
+                            <div class="imgContainer">
+                            <img class="pict i" src="~/images/@ViewBag.Animal.PictureName" alt="@ViewBag.Animal.Name">
+                            </div>
+                            <div class="i content d-flex flex-column align-items-center justify-content-center">
+                                <div>
+                                <h3 class="fs-5 forColor">@ViewBag.Animal.Name</h3>
+                                <p class="fs-6 forColor">Age: @ViewBag.Animal.Age</p>
+                                <p class="fs-6 forColor">@ViewBag.Animal.Description</p>
+                                <p class="fs-6 forColor">Category: @ViewBag.Animal.Category!.Name</p>
+                                </div>
+                            </div>
+                        @*</div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-0 border">
+                <div class="card-body p-4">
+                    <div class="comments-container" style="height: 300px; overflow-y: auto;">
+                        @foreach (var comment in ViewBag.Animal.Comments!)
+                        {
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <p>@comment.AcComment</p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex flex-row align-items-center">
+                                            <img src="/images/Anonymous.jpg" alt="anonymous" width="25" height="25" />
+                                            <p class="small mb-0 ms-2">Anonymous</p>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center">
+                                            <p class="small text-muted mb-0">Upvote?</p>
+                                            <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                                            <p class="small text-muted mb-0">3</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <form id="commentForm" action="details" method="post">
+                        @*<textarea id="txt" asp-for="@Model.AcComment" class="form-control" name="AcComment" rows="4" cols="40" placeholder="Add your comments here and press Submit"></textarea>*@
+
+                        @*@Html.EditorFor(m => m.AcComment)*@
+                        @Html.TextAreaFor(m => m.AcComment, new { @class = "form-control", rows = 3, cols = 40, placeholder = "Add your comments here and press Submit", oninput = "updateCounter(this)" })
+
+                        <p>Characters remaining: <span id="charCounter">40</span></p>
+
+                        @*@Html.TextAreaFor(m => m.AcComment, new { @class = "form-control", rows = 3, cols = 40, placeholder = "Add your comments here and press Submit" })*@
+
+                        @*@Html.ValidationMessageFor(m => m.Name)*@
+                        @*<input id="txt" asp-for="@Model.AcComment" class="form-control" name="AcComment" rows="4" cols="40" placeholder="Add your comments here and press Submit"></input>*@
+                        
+                        @Html.ValidationMessageFor(m => m.AcComment, "", new { @style = "color: red;" })
+                        @*@Html.ValidationMessageFor(m => m.AcComment)*@
+
+                        <br />
+                        <input type="hidden" name="AnimalId" value="@ViewBag.Animal.Id">
+                        <input type="hidden" name="Id" value="@Model?.Id">
+                        <input id="subBtn" type="submit" value="Add comment" onclick=""/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<script>
+    document.getElementById('commentForm').addEventListener('submit', function () {
+        document.getElementById('txt').value = ''; // Clear the textarea value
+    });
+</script>*@
+
+
+
+<script>
+    function updateCounter(textarea) {
+        var maxLength = 40;
+        var remaining = maxLength - textarea.value.length;
+        document.getElementById("charCounter").textContent = remaining;
+    }
+</script>

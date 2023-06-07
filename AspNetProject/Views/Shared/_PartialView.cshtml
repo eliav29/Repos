@@ -1,0 +1,72 @@
+﻿@using AspNetProject.Models;
+@model IEnumerable<Category>
+
+
+
+
+<select id="dropdown" onchange="filterAnimals()" class="dropdown" title="Select an option">
+    <option value="All">See all</option>
+
+    @foreach (var category in Model)
+    {
+        <option value="@category.Id">@category.Name</option>
+    }
+</select>
+
+<div id="animalContainer" class="container d-flex align-items-center justify-content-center flex-wrap">
+    <!-- Each animal element should have the class "animal" and a data-category attribute -->
+    @foreach (var cate in Model)
+    {
+        foreach (var pet in cate.Animals!)
+        {
+            <div class="animal" data-category="@cate.Id">
+                <!-- Animal content goes here -->
+                <div class="box">
+                    <div class="body">
+                        <div class="imgContainer">
+                            <img class="pict i" src="~/images/@pet.PictureName" alt="@pet.Name">
+                        </div>
+                        <div class="i content d-flex flex-column align-items-center justify-content-center">
+                            <div>
+                                <h3 class="text-white fs-5">@pet.Name</h3>
+                                @if (ViewBag.IsAdministrator)
+                                {
+                                    <p class="fs-6 text-white"><a asp-action="Details" asp-route-id="@pet.Id">Find out more and comment</a></p>
+                                }
+
+                                @if (ViewBag.IsAdministrator == false)
+                                {
+                                    <p>Age: @pet.Age</p>
+                                    <p>Description: @pet.Description</p>
+                                    <p class="fs-6 text-white"><a asp-action="Delete" asp-route-id="@pet.Id">Delete</a></p>
+                                    <p class="fs-6 text-white"><a asp-action="Edit" asp-route-id="@pet.Id">Edit</a></p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+
+<script>
+    function filterAnimals() {
+        var categoryId = document.getElementById("dropdown").value;
+        var animalContainer = document.getElementById("animalContainer");
+        var animals = animalContainer.getElementsByClassName("animal");
+
+        for (var i = 0; i < animals.length; i++) {
+            var animal = animals[i];
+            var categoryIdAttr = animal.getAttribute("data-category");
+
+            if (categoryId === "All" || categoryId === categoryIdAttr) {
+                animal.style.display = "block";
+            } else {
+                animal.style.display = "none";
+            }
+        }
+    }
+</script>
